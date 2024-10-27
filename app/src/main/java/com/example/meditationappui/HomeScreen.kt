@@ -18,7 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,7 +43,7 @@ fun HomeScreen() {
             .fillMaxSize()
     ) {
         Column{
-            GreetingSection()
+            GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
 
         }
@@ -51,43 +51,47 @@ fun HomeScreen() {
 }
 
 @Composable
-fun GreetingSection(
-    name:String = "Ghadkaawi"
+fun GreetingsSection(
+    name:String = "Gadhkaawi"
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .padding(top = 15.dp)
             .fillMaxWidth()
-            .padding(top = 20.dp)
-            .padding(15.dp)
-    ){
+            .padding(20.dp)
+    ) {
         Column(
-            verticalArrangement = Arrangement.Center,
-        ){
-            Text("Good Morning, Mr:$name",
+
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("Good Morning, Mr: $name",
                 style = MaterialTheme.typography.headlineMedium)
 
-            Spacer(Modifier.padding(1.5.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
+
             Text("We wish you have a good day!",
                 style = MaterialTheme.typography.bodyLarge)
         }
-        Icon(
-            painter = painterResource(id= R.drawable.ic_search),
-            contentDescription = "Search",
+
+        Icon(painterResource(id = R.drawable.ic_search),
+            contentDescription = "",
             tint = Color.White,
             modifier = Modifier.size(24.dp)
         )
     }
 }
 
+
 @Composable
 fun ChipsSection(
     chips:List<String>
 ) {
-    var selectedChipIndex  by remember {
-        mutableStateOf(0)
+    var selectedChip by remember {
+        mutableIntStateOf(0)
     }
+
     LazyRow {
         items(chips.size){
             Box(
@@ -95,12 +99,11 @@ fun ChipsSection(
                 modifier = Modifier
                     .padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
                     .clickable {
-                        selectedChipIndex = it
+                        selectedChip = it
                     }
                     .clip(RoundedCornerShape(10.dp))
                     .background(
-                        if (selectedChipIndex == it) ButtonBlue
-                        else DarkerButtonBlue
+                        if (selectedChip == it) ButtonBlue else DarkerButtonBlue
                     )
                     .padding(15.dp) // padding the text inside the chip
             ) {
@@ -108,9 +111,7 @@ fun ChipsSection(
             }
         }
     }
-
 }
-
 
 
 @Preview(showSystemUi = true)
@@ -123,7 +124,7 @@ fun HomeScreenPreview() {
             .fillMaxSize()
     ) {
         Column{
-            GreetingSection()
+            GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
 
         }
