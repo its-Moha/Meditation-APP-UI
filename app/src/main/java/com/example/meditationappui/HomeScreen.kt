@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.meditationappui.ui.theme.ButtonBlue
 import com.example.meditationappui.ui.theme.DarkerButtonBlue
 import com.example.meditationappui.ui.theme.DeepBlue
+import com.example.meditationappui.ui.theme.LightRed
 import com.example.meditationappui.ui.theme.TextWhite
 
 @Composable
@@ -45,7 +47,7 @@ fun HomeScreen() {
         Column{
             GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
-
+            CurrentMeditation()
         }
     }
 }
@@ -69,7 +71,7 @@ fun GreetingsSection(
             Text("Good Morning, Mr: $name",
                 style = MaterialTheme.typography.headlineMedium)
 
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.padding(1.6.dp))
 
             Text("We wish you have a good day!",
                 style = MaterialTheme.typography.bodyLarge)
@@ -78,7 +80,11 @@ fun GreetingsSection(
         Icon(painterResource(id = R.drawable.ic_search),
             contentDescription = "",
             tint = Color.White,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
+                .clickable {
+
+                }
         )
     }
 }
@@ -113,6 +119,50 @@ fun ChipsSection(
     }
 }
 
+@Composable
+fun CurrentMeditation(
+    color: Color = LightRed
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(15.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color)
+            .fillMaxWidth()
+            .padding(horizontal = 15.dp, vertical = 20.dp)
+    ) {
+        Column {
+            Text(
+                "Daily Thought",
+                style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.padding(1.5.dp))
+            Text(
+                "Meditation . 3-10 min",
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextWhite
+            )
+        }
+        Box (
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(ButtonBlue)
+                .padding(10.dp)
+        ){
+            Icon(
+                painterResource(id = R.drawable.ic_play),
+                contentDescription = "Play",
+                tint = Color.White,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+    }
+    
+}
+
 
 @Preview(showSystemUi = true)
 @Composable
@@ -126,7 +176,7 @@ fun HomeScreenPreview() {
         Column{
             GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
-
+            CurrentMeditation()
         }
 
     }
