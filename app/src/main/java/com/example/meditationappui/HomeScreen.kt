@@ -5,13 +5,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -27,12 +32,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.meditationappui.ui.theme.Beige1
+import com.example.meditationappui.ui.theme.BlueViolet1
 import com.example.meditationappui.ui.theme.ButtonBlue
 import com.example.meditationappui.ui.theme.DarkerButtonBlue
 import com.example.meditationappui.ui.theme.DeepBlue
+import com.example.meditationappui.ui.theme.LightGreen1
 import com.example.meditationappui.ui.theme.LightRed
+import com.example.meditationappui.ui.theme.OrangeYellow1
 import com.example.meditationappui.ui.theme.TextWhite
 
 @Composable
@@ -48,6 +59,38 @@ fun HomeScreen() {
             GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
             CurrentMeditation()
+            FeatureSection(features = listOf(
+                Feature(
+                title = "Sleep Meditation",
+                R.drawable.ic_headphone,
+                BlueViolet1
+                ),
+                Feature(
+                    title = "Tips for Sleeping",
+                    R.drawable.ic_videocam,
+                    LightGreen1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_headphone,
+                    OrangeYellow1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_videocam,
+                    Beige1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_headphone,
+                    BlueViolet1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_videocam,
+                    LightGreen1
+                ),
+                ))
         }
     }
 }
@@ -163,6 +206,75 @@ fun CurrentMeditation(
     
 }
 
+@Composable
+fun FeatureSection(
+    features: List<Feature>
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+
+        Text(
+            "Featured",
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(15.dp)
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            items(features.size){
+                FeatureItem(feature = features[it])
+            }
+        }
+    }
+}
+
+@Composable
+fun FeatureItem(
+    feature: Feature
+) {
+    Box(
+        modifier = Modifier
+            .padding(7.5.dp)
+            .aspectRatio(1f) // the width between two columns
+            .clip(RoundedCornerShape(10.dp))
+            .background(feature.color)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)
+        ){
+            Text(
+                text = feature.title,
+                style = MaterialTheme.typography.headlineMedium,
+                lineHeight = 26.sp, //if there is a line wrap we need a space between the 2 words
+                modifier = Modifier.align(Alignment.TopStart)
+                )
+            Icon(
+                painter = painterResource(id = feature.iconId),
+                contentDescription = feature.title,
+                tint = Color.White,
+                modifier = Modifier.align(Alignment.BottomStart)
+            )
+            Text(
+                text = "Start",
+                color = TextWhite,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clickable {
+                        //handle what click button do
+                    }
+                    .align(Alignment.BottomEnd)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(ButtonBlue)
+                    .padding(horizontal = 6.dp, vertical = 15.dp)
+            )
+        }
+    }
+}
+
 
 @Preview(showSystemUi = true)
 @Composable
@@ -177,6 +289,38 @@ fun HomeScreenPreview() {
             GreetingsSection()
             ChipsSection(chips = listOf("SweetSleep","Insomnia","Depression","Mindfulness","Calmness","Focus"))
             CurrentMeditation()
+            FeatureSection(features = listOf(
+                Feature(
+                    title = "Sleep Meditation",
+                    R.drawable.ic_headphone,
+                    BlueViolet1
+                ),
+                Feature(
+                    title = "Tips for Sleeping",
+                    R.drawable.ic_videocam,
+                    LightGreen1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_headphone,
+                    OrangeYellow1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_videocam,
+                    Beige1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_headphone,
+                    BlueViolet1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_videocam,
+                    LightGreen1
+                ),
+            ))
         }
 
     }
