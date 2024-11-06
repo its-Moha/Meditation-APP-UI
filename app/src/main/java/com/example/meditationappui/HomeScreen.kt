@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.meditationappui.ui.theme.AquaBlue
 import com.example.meditationappui.ui.theme.Beige1
 import com.example.meditationappui.ui.theme.BlueViolet1
 import com.example.meditationappui.ui.theme.ButtonBlue
@@ -50,8 +51,6 @@ import com.example.meditationappui.ui.theme.TextWhite
 fun HomeScreen() {
     Box(
         modifier = Modifier
-
-
             .background(DeepBlue)
             .fillMaxSize()
     ) {
@@ -83,15 +82,25 @@ fun HomeScreen() {
                 Feature(
                     title = "Night Island",
                     R.drawable.ic_headphone,
-                    BlueViolet1
+                    OrangeYellow1
                 ),
                 Feature(
                     title = "Night Island",
                     R.drawable.ic_videocam,
-                    LightGreen1
-                ),
+                    Beige1
+                )
                 ))
         }
+
+        BottomMenu(items = listOf(
+                BottomMenuContent("Home",R.drawable.ic_home),
+                BottomMenuContent("Meditate",R.drawable.ic_bubble),
+                BottomMenuContent("Sleep",R.drawable.ic_moon),
+                BottomMenuContent("Music",R.drawable.ic_music),
+                BottomMenuContent("Profile",R.drawable.ic_profile),
+        ),
+            modifier = Modifier.align(Alignment.BottomCenter))
+
     }
 }
 
@@ -275,6 +284,83 @@ fun FeatureItem(
     }
 }
 
+@Composable
+fun BottomMenu(
+    items:List<BottomMenuContent>,
+    modifier: Modifier = Modifier,
+    activeHighLightColor: Color = DeepBlue,
+    activeTextColor: Color = Color.White,
+    inactiveTextColor: Color = AquaBlue,
+    initialSelectedItemIndex:Int = 0) {
+
+    var selectedItemIndex by remember {
+        mutableIntStateOf(initialSelectedItemIndex)
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(DeepBlue)
+            .padding(15.dp)
+    ) {
+        items.forEachIndexed { index, item ->
+            BottomMenuItem(
+                item = item,
+                isSelected = index == selectedItemIndex,
+                activeHighLightColor = activeHighLightColor,
+                activeTextColor = activeTextColor,
+                inactiveTextColor = inactiveTextColor
+
+            ) {
+                selectedItemIndex = index
+            }
+        }
+
+    }
+
+
+}
+
+@Composable
+fun BottomMenuItem(
+    item: BottomMenuContent,
+    isSelected: Boolean = false,
+    activeHighLightColor: Color = DeepBlue,
+    activeTextColor: Color = Color.White,
+    inactiveTextColor: Color = AquaBlue,
+    onItemClick: () -> Unit
+){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.clickable {
+            onItemClick()
+        }
+    ){
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(if (isSelected) activeHighLightColor else Color.Transparent )
+                .padding(10.dp)
+        ) {
+            Icon(
+                painter = painterResource(item.iconId),
+                contentDescription = item.title,
+                tint = if (isSelected) activeTextColor else inactiveTextColor,
+                modifier = Modifier.size(20.dp)
+                )
+        }
+        Text(
+            text = item.title,
+            color = if (isSelected) activeTextColor else inactiveTextColor
+        )
+    }
+
+}
+
 
 @Preview(showSystemUi = true)
 @Composable
@@ -282,8 +368,9 @@ fun HomeScreenPreview() {
 
     Box(
         modifier = Modifier
-            .background(DeepBlue)
             .fillMaxSize()
+            .background(DeepBlue)
+
     ) {
         Column{
             GreetingsSection()
@@ -320,10 +407,28 @@ fun HomeScreenPreview() {
                     R.drawable.ic_videocam,
                     LightGreen1
                 ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_headphone,
+                    OrangeYellow1
+                ),
+                Feature(
+                    title = "Night Island",
+                    R.drawable.ic_videocam,
+                    Beige1
+                )
             ))
         }
-
+        BottomMenu(items = listOf(
+            BottomMenuContent("Home",R.drawable.ic_home),
+            BottomMenuContent("Meditate",R.drawable.ic_bubble),
+            BottomMenuContent("Sleep",R.drawable.ic_moon),
+            BottomMenuContent("Music",R.drawable.ic_music),
+            BottomMenuContent("Profile",R.drawable.ic_profile),
+        ),
+            modifier = Modifier.align(Alignment.BottomCenter))
     }
+
 
 }
 
