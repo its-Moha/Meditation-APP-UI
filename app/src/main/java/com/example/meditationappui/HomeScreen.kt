@@ -106,7 +106,7 @@ fun HomeScreen() {
 
 @Composable
 fun GreetingsSection(
-    name:String = "Gadhkaawi"
+    name:String = "Mohamed Amin"
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
